@@ -1,0 +1,53 @@
+<html>
+   <head>
+      <title>
+         Upload - Pictures
+      </title>
+   </head>
+   <body>
+      <progress value="0" max="100" id="uploader">0%</progress>
+      <input type="file" value="upload" id="fileButton"/>
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#config-web-app -->
+
+      <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+         apiKey: "AIzaSyDLuXjfnKa1kyy-FD5fPDNBEGXCQS-icPw",
+         authDomain: "zoorikworks.firebaseapp.com",
+         databaseURL: "https://zoorikworks.firebaseio.com",
+         projectId: "zoorikworks",
+         storageBucket: "zoorikworks.appspot.com",
+         messagingSenderId: "495016968803",
+         appId: "1:495016968803:web:33d0615515251f8b"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var uploader = document.getElementById('uploader');
+      var fileButton = document.getElementById('fileButton');
+      fileButton.addEventListener('change', function(e){
+         var file = e.target.files[0];
+         var storage = firebase.storageRef(file.name);
+         var task = storage.put(file);
+         task.on('state_changed',
+            function progress(snapshot)
+            {
+               var percentage = (snapshot.bytesTransfered / snapshot.totalBytes)*100;
+               uploader.value = percentage;
+            },
+            function error(err)
+            {
+
+            },
+            function complete()
+            {
+
+            }
+         );
+      });
+      </script>
+   </body>
+</html>
